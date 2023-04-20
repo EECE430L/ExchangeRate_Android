@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_exchange_rate"
+            android:icon="@drawable/exchange_rate_icon"
+            android:title="Exchange Rate" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/statistics_icon"
+            android:title="Statistics" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="Transaction Service">
+            <menu>
+                <item
+                    android:id="@+id/nav_record_an_exchange"
+                    android:icon="@drawable/exchange_rate_icon"
+                    android:title="Record an Exchange" />
+                <item
+                    android:id="@+id/nav_offer_a_transaction"
+                    android:icon="@drawable/statistics_icon"
+                    android:title="Offer a Transaction to a User" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/authenticatedSection" android:title="Me" android:visible="false">
+            <menu>
+                <item
+                    android:id="@+id/nav_my_transactions"
+                    android:icon="@drawable/statistics_icon"
+                    android:title="My Transactions" />
+                <item
+                    android:id="@+id/nav_profile"
+                    android:icon="@drawable/exchange_rate_icon"
+                    android:title="My Profile" />
+            </menu>
+        </item>
+        <item android:id="@+id/unAuthenticatedSection" android:title="Me" android:visible="true">
+            <menu>
+                <item
+                    android:id="@+id/nav_login"
+                    android:icon="@drawable/statistics_icon"
+                    android:title="Login" />
+            </menu>
+        </item>
+    </group>
+</menu>
