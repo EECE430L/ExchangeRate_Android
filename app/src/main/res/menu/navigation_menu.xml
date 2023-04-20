@@ -15,39 +15,49 @@
     </group>
 
     <group android:checkableBehavior="single">
-        <item android:title="Transaction Service">
+        <item
+            android:id="@+id/transactionServiceSection"
+            android:title="Transaction Service">
             <menu>
                 <item
                     android:id="@+id/nav_record_an_exchange"
-                    android:icon="@drawable/exchange_rate_icon"
+                    android:icon="@drawable/record_a_transaction_icon"
                     android:title="Record an Exchange" />
                 <item
                     android:id="@+id/nav_offer_a_transaction"
-                    android:icon="@drawable/statistics_icon"
+                    android:icon="@drawable/offer_a_transaction_icon"
                     android:title="Offer a Transaction to a User" />
             </menu>
         </item>
     </group>
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/authenticatedSection" android:title="Me" android:visible="false">
+        <item
+            android:id="@+id/authenticatedSection"
+            android:title="Me">
             <menu>
                 <item
                     android:id="@+id/nav_my_transactions"
-                    android:icon="@drawable/statistics_icon"
+                    android:icon="@drawable/my_transactions_icon"
                     android:title="My Transactions" />
                 <item
-                    android:id="@+id/nav_profile"
-                    android:icon="@drawable/exchange_rate_icon"
-                    android:title="My Profile" />
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/logout_icon"
+                    android:title="Logout" />
             </menu>
         </item>
-        <item android:id="@+id/unAuthenticatedSection" android:title="Me" android:visible="true">
+        <item
+            android:id="@+id/unAuthenticatedSection"
+            android:title="Me">
             <menu>
                 <item
                     android:id="@+id/nav_login"
-                    android:icon="@drawable/statistics_icon"
+                    android:icon="@drawable/login_icon"
                     android:title="Login" />
+                <item
+                    android:id="@+id/nav_signup"
+                    android:icon="@drawable/signup_icon"
+                    android:title="Signup" />
             </menu>
         </item>
     </group>
