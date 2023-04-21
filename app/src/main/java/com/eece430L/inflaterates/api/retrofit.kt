@@ -1,14 +1,12 @@
 package com.eece430L.inflaterates.api
 
+import android.view.SurfaceControl
 import com.eece430L.inflaterates.api.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 object InflateRatesService {
 
@@ -57,5 +55,9 @@ object InflateRatesService {
                                     @Query("endMonth") endMonth: Int,
                                     @Query("endDay") endDay: Int
         ): Call<List<LbpToUsdFluctuationModel>>
+
+        @POST("/transaction")
+        fun addTransaction(@Body transaction: TransactionModel,
+                           @Header("Authorization") authorization: String?) : Call<Any>
     }
 }
