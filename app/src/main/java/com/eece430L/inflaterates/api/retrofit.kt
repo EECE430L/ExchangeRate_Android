@@ -1,8 +1,6 @@
 package com.eece430L.inflaterates.api
 
-import com.eece430L.inflaterates.api.models.ExchangeRatesModel
-import com.eece430L.inflaterates.api.models.TokenModel
-import com.eece430L.inflaterates.api.models.UserModel
+import com.eece430L.inflaterates.api.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -10,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 object InflateRatesService {
 
@@ -35,5 +34,28 @@ object InflateRatesService {
         @GET("/exchangeRate")
         fun getExchangeRates(): Call<ExchangeRatesModel>
 
+        @GET("/statistics/todays-transactions")
+        fun getTransactionNumbers(): Call<TransactionsNumberModel>
+
+        @GET("/statistics/rates-percent-change")
+        fun getPercentChanges(): Call<RatesPercentChangesModel>
+
+        @GET("/fluctuations/usd-to-lbp")
+        fun getUsdToLbpFluctuations(@Query("startYear") startYear: Int,
+                                    @Query("startMonth") startMonth: Int,
+                                    @Query("startDay") startDay: Int,
+                                    @Query("endYear") endYear: Int,
+                                    @Query("endMonth") endMonth: Int,
+                                    @Query("endDay") endDay: Int
+        ): Call<List<UsdToLbpFluctuationModel>>
+
+        @GET("/fluctuations/lbp-to-usd")
+        fun getLbpToUsdFluctuations(@Query("startYear") startYear: Int,
+                                    @Query("startMonth") startMonth: Int,
+                                    @Query("startDay") startDay: Int,
+                                    @Query("endYear") endYear: Int,
+                                    @Query("endMonth") endMonth: Int,
+                                    @Query("endDay") endDay: Int
+        ): Call<List<LbpToUsdFluctuationModel>>
     }
 }

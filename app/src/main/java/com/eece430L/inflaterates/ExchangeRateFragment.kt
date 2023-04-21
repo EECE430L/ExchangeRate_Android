@@ -71,7 +71,6 @@ class ExchangeRateFragment : Fragment() {
                     val lbpToUsd = response.body()?.lbpToUsd
                     val usdToLbp = response.body()?.usdToLbp
                     lbpToUsd?.let {
-                        println(it.toDouble())
                         buyUsdTextView?.text = if (it.toDouble() != 0.0) it.toString() else "N/A"
                     }
                     usdToLbp?.let {
