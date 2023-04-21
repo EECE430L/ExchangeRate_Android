@@ -1,5 +1,6 @@
 package com.eece430L.inflaterates.api
 
+import com.eece430L.inflaterates.api.models.ExchangeRatesModel
 import com.eece430L.inflaterates.api.models.TokenModel
 import com.eece430L.inflaterates.api.models.UserModel
 import retrofit2.Call
@@ -30,6 +31,9 @@ object InflateRatesService {
 
         @POST("/authentication")
         fun login(@Body user: UserModel) : Call<TokenModel>
+
+        @GET("/exchangeRate")
+        fun getExchangeRates(): Call<ExchangeRatesModel>
 
     }
 }
