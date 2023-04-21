@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Authentication.initialize(this)
+
         drawerLayout = findViewById(R.id.drawer_layout)
         toggle = ActionBarDrawerToggle(this, drawerLayout,  R.string.open, R.string.close)
         drawerLayout?.addDrawerListener(toggle)
@@ -44,9 +46,9 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        navigationView?.menu?.findItem(R.id.authenticatedSection)?.isVisible = false
-        navigationView?.menu?.findItem(R.id.transactionServiceSection)?.isVisible = false
-        navigationView?.menu?.findItem(R.id.unAuthenticatedSection)?.isVisible = true
+
+        val isUserLoggedIn: Boolean = Authentication.getToken() != null
+        updateNavigationMenu(isUserLoggedIn)
     }
 
     private fun logout() {
