@@ -106,4 +106,8 @@ class MainActivity : AppCompatActivity() {
     fun switchToOffersISentFragment() {
         replaceFragment(OffersISentFragment(), "Offers I Sent")
     }
+
+    fun switchToRecordAnExchangeFragment() {
+        replaceFragment(RecordAnExchangeFragment(), "Record an Exchange")
+    }
 }

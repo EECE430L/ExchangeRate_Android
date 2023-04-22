@@ -56,6 +56,9 @@ object InflateRatesService {
                                     @Query("endDay") endDay: Int
         ): Call<List<LbpToUsdFluctuationModel>>
 
+        @GET("/transaction")
+        fun getMyTransactions(@Header("Authorization") authorization: String?) : Call<List<MyTransactionModel>>
+
         @POST("/transaction")
         fun addTransaction(@Body transaction: TransactionModel,
                            @Header("Authorization") authorization: String?) : Call<Any>

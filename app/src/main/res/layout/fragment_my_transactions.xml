@@ -5,12 +5,53 @@
     android:layout_height="match_parent"
     tools:context=".MyTransactionsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="My Transactions Fragment"
-        android:textSize="30sp"/>
+    <ListView
+        android:id="@+id/my_transactions_ListView"
+        android:layout_width="412dp"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
 
+    <LinearLayout
+        android:id="@+id/transactions_placeholder_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="No transactions to display. Start by recording an exchange or creating an offer and sending it to another user."
+            android:textColor="@color/dark_blue"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/link_to_record_an_exchange_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Record an Exchange"
+            android:textColor="@color/dark_blue"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/link_to_create_an_offer_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Create an Offer"
+            android:textColor="@color/dark_blue"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </FrameLayout>
