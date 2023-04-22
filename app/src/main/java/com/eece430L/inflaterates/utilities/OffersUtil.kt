@@ -23,9 +23,15 @@ object OffersUtil {
         apiCall.enqueue(object : Callback<List<OfferModel>> {
 
             override fun onResponse(call: Call<List<OfferModel>>, response: Response<List<OfferModel>>) {
+
+                var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
                 progressBarManager.hideProgressBar()
+
                 if (response.isSuccessful) {
 
+                    if(response.body()?.isNotEmpty() == true) {
+                        message = "Fetched ${response.body()?.size} offers!"
+                    }
                     offers.addAll(response.body()!!)
                     if(offers.isEmpty()) {
                         placeHolderView.visibility = View.VISIBLE
@@ -35,18 +41,19 @@ object OffersUtil {
                     }
                     adapter.notifyDataSetChanged()
                 }
-                else {
+                else if (response.code() == 401 || response.code() == 403) {
+                    (activity as MainActivity).logout()
+                }
+                else if(message == "") { message = response.code().toString() }
+
+                if(message != "") {
                     Snackbar.make(
                         view,
-                        response.code().toString(),
+                        message,
                         Snackbar.LENGTH_LONG
                     ).show()
-                    if (response.code() == 401 || response.code() == 403) {
-                        (activity as MainActivity).logout()
-                    }
                 }
             }
-
             override fun onFailure(call: Call<List<OfferModel>>, t: Throwable) {
                 progressBarManager.hideProgressBar()
                 Snackbar.make(

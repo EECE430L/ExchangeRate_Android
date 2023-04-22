@@ -16,10 +16,7 @@ import android.widget.TextView
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.TokenModel
 import com.eece430L.inflaterates.api.models.UserModel
-import com.eece430L.inflaterates.utilities.Authentication
-import com.eece430L.inflaterates.utilities.ProgressBarManager
-import com.eece430L.inflaterates.utilities.TextChangeListenerUtils
-import com.eece430L.inflaterates.utilities.ValidatorUtils
+import com.eece430L.inflaterates.utilities.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -105,20 +102,13 @@ class LoginFragment : Fragment() {
                     mainActivity.updateNavigationMenu(loggedIn = true)
                 }
                 else {
-                    if(response.code() == 401 || response.code() == 403) {
-                        Snackbar.make(
-                            loginButton as View,
-                            "Wrong Credentials!",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
-                    else {
-                        Snackbar.make(
-                            loginButton as View,
-                            response.code().toString(),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
+                    var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                    if(message == "") { message = response.code().toString() }
+                    Snackbar.make(
+                        loginButton as View,
+                        message,
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
                 loginButton?.isEnabled = true
             }

@@ -11,10 +11,7 @@ import android.widget.Button
 import android.widget.RadioGroup
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.TransactionModel
-import com.eece430L.inflaterates.utilities.Authentication
-import com.eece430L.inflaterates.utilities.ProgressBarManager
-import com.eece430L.inflaterates.utilities.TextChangeListenerUtils
-import com.eece430L.inflaterates.utilities.ValidatorUtils
+import com.eece430L.inflaterates.utilities.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
@@ -95,9 +92,11 @@ class RecordAnExchangeFragment : Fragment() {
                         ).show()
                     }
                     else {
+                        var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                        if(message == "") { message = response.code().toString() }
                         Snackbar.make(
                             addTransactionButton as View,
-                            response.code().toString(),
+                            message,
                             Snackbar.LENGTH_LONG
                         ).show()
                     }

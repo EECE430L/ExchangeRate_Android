@@ -11,6 +11,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.ExchangeRatesModel
+import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil
 import com.eece430L.inflaterates.utilities.ProgressBarManager
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -80,9 +81,11 @@ class ExchangeRateFragment : Fragment() {
                         SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
                 }
                 else {
+                    var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                    if(message == "") { message = response.code().toString() }
                     Snackbar.make(
                         convertButton as View,
-                        response.code().toString(),
+                        message,
                         Snackbar.LENGTH_LONG
                     ).show()
                 }

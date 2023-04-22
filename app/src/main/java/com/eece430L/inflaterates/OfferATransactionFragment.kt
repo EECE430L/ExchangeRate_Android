@@ -11,10 +11,7 @@ import android.widget.Button
 import android.widget.RadioGroup
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.CreateOfferRequestModel
-import com.eece430L.inflaterates.utilities.Authentication
-import com.eece430L.inflaterates.utilities.ProgressBarManager
-import com.eece430L.inflaterates.utilities.TextChangeListenerUtils
-import com.eece430L.inflaterates.utilities.ValidatorUtils
+import com.eece430L.inflaterates.utilities.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
@@ -93,15 +90,21 @@ class OfferATransactionFragment : Fragment() {
                     if(response.isSuccessful) {
                         (activity as MainActivity).switchToOffersISentFragment()
                     }
+                    else if (response.code() == 401 || response.code() == 403) {
+                        (activity as MainActivity).logout()
+                    }
                     else {
+                        var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                        if(response.code() == 404) { message = "A user with username " +
+                                "${createOfferRequest.receiver} was not found!" }
+                        else if(message == "") { message = response.code().toString() }
                         Snackbar.make(
-                            createOfferButton as View,
-                            response.code().toString(),
+                            requireView(),
+                            message,
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
                 }
-
                 override fun onFailure(call: Call<Any>, t: Throwable) {
                     progressBarManager.hideProgressBar()
                     Snackbar.make(

@@ -14,6 +14,7 @@ import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.MyTransactionModel
 import com.eece430L.inflaterates.api.models.OfferModel
 import com.eece430L.inflaterates.utilities.Authentication
+import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil
 import com.eece430L.inflaterates.utilities.ProgressBarManager
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -80,8 +81,12 @@ class MyTransactionsFragment : Fragment() {
 
                 override fun onResponse(call: Call<List<MyTransactionModel>>,
                                         response: Response<List<MyTransactionModel>>) {
+
                     progressBarManager.hideProgressBar()
+                    var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+
                     if(response.isSuccessful) {
+                        message = "Fetched ${response.body()?.size} transactions!"
                         myTransactions?.addAll(response.body()!!)
                         if(myTransactions?.isEmpty() == true) {
                             myTransactionsPlaceHolderContainer?.visibility = View.VISIBLE
@@ -91,16 +96,15 @@ class MyTransactionsFragment : Fragment() {
                         }
                         adapter?.notifyDataSetChanged()
                     }
-                    else {
-                        Snackbar.make(
-                            requireView(),
-                            response.code().toString(),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        if (response.code() == 401 || response.code() == 403) {
-                            (activity as MainActivity).logout()
-                        }
+                    else if (response.code() == 401 || response.code() == 403) {
+                        (activity as MainActivity).logout()
                     }
+                    else if(message == "") { message = response.code().toString() }
+                    Snackbar.make(
+                        requireView(),
+                        message,
+                        Snackbar.LENGTH_LONG
+                    ).show()
 
                 }
                 override fun onFailure(call: Call<List<MyTransactionModel>>, t: Throwable) {

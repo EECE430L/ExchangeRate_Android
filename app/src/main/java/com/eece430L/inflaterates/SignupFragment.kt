@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.UserModel
+import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil
 import com.eece430L.inflaterates.utilities.ProgressBarManager
 import com.eece430L.inflaterates.utilities.TextChangeListenerUtils
 import com.eece430L.inflaterates.utilities.ValidatorUtils
@@ -105,9 +106,12 @@ class SignupFragment : Fragment() {
                     snackbar.show()
                 }
                 else {
+                    var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                    if(response.code() == 409) { message = "User Already exists!" }
+                    else if(message == "") { message = response.code().toString() }
                     Snackbar.make(
                         signupButton as View,
-                        response.errorBody()?.string().toString(),
+                        message,
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
