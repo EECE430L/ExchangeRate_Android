@@ -75,12 +75,7 @@ class OfferATransactionFragment : Fragment() {
         val usdToLbp: Boolean =
             transactionTypeRadioGroup?.checkedRadioButtonId == R.id.sell_usd_RadioButton
 
-        val offerer: String = (requireActivity() as MainActivity).username.toString()
-        println(offerer)
-        println("----------------------------------------------------------------------------------")
-
         val createOfferRequest = CreateOfferRequestModel(
-            offerer,
             receiver,
             offeredAmount?.toFloatOrNull(),
             requestedAmount?.toFloatOrNull(),

@@ -11,7 +11,6 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    var username: String? = null
     var drawerLayout: DrawerLayout? = null;
     var navigationView: NavigationView? = null;
 
