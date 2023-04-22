@@ -103,6 +103,7 @@ class LoginFragment : Fragment() {
                 }
                 else {
                     var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())
+                    if(response.code() == 404) { message = "A user with username $username was not found!"}
                     if(message == "") { message = response.code().toString() }
                     Snackbar.make(
                         loginButton as View,
