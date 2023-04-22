@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
             return
         }
 
-        val user = UserModel(username, password)
+        val user = UserModel(null, username, password)
 
         loginButton?.isEnabled = false
         progressBarManager.showProgressBar(requireActivity())

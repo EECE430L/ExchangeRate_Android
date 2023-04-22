@@ -1,5 +1,6 @@
 package com.eece430L.inflaterates.utilities
 
+import android.util.Patterns
 import com.google.android.material.textfield.TextInputLayout
 
 object ValidatorUtils {
@@ -107,5 +108,18 @@ object ValidatorUtils {
         return inputIsValid
     }
 
+    fun validateEmail(email: String?, emailEditText: TextInputLayout?): Boolean {
+
+        if(email?.isBlank() == true) {
+            emailEditText?.error = "Please enter your email"
+            return false
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText?.error = "Please enter a valid email address"
+            return false
+        }
+        emailEditText?.error = null
+        return true
+    }
 
 }

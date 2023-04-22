@@ -28,6 +28,7 @@ class SignupFragment : Fragment() {
 
     private var activity: Activity? = null
     private val progressBarManager = ProgressBarManager()
+    private var emailEditText: TextInputLayout? = null
     private var usernameEditText: TextInputLayout? = null
     private var passwordEditText: TextInputLayout? = null
     private var signupButton : Button? = null
@@ -42,6 +43,9 @@ class SignupFragment : Fragment() {
         val view: View =  inflater.inflate(R.layout.fragment_signup, container, false)
 
         activity = requireActivity()
+
+        emailEditText = view.findViewById(R.id.emailLayout)
+        TextChangeListenerUtils.setTextChangeListener(emailEditText!!)
 
         usernameEditText = view.findViewById(R.id.usernameLayout)
         TextChangeListenerUtils.setTextChangeListener(usernameEditText!!)
@@ -68,17 +72,19 @@ class SignupFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(signupButton?.windowToken, 0)
 
+        val email = emailEditText?.editText?.text?.toString()
         val username = usernameEditText?.editText?.text?.toString()
         val password = passwordEditText?.editText?.text?.toString()
 
         val inputIsValid = ValidatorUtils.validateCredentialsInput(
             username, password, usernameEditText, passwordEditText)
+        val emailIsValid = ValidatorUtils.validateEmail(email, emailEditText)
 
-        if(!inputIsValid) {
+        if(!inputIsValid || !emailIsValid) {
             return
         }
 
-        val user = UserModel(username, password)
+        val user = UserModel(email, username, password)
         progressBarManager.showProgressBar(requireActivity())
 
         InflateRatesService.inflateRatesApi().signup(user).enqueue(object: Callback<UserModel> {
