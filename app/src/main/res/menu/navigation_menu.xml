@@ -41,6 +41,14 @@
                     android:icon="@drawable/my_transactions_icon"
                     android:title="My Transactions" />
                 <item
+                    android:id="@+id/nav_offers_i_sent"
+                    android:icon="@drawable/offers_i_sent_icon"
+                    android:title="Offers I Sent" />
+                <item
+                    android:id="@+id/nav_offers_i_received"
+                    android:icon="@drawable/offers_i_received_icon"
+                    android:title="Offers I Received" />
+                <item
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/logout_icon"
                     android:title="Logout" />

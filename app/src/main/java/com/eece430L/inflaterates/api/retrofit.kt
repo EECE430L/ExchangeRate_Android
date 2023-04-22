@@ -59,5 +59,19 @@ object InflateRatesService {
         @POST("/transaction")
         fun addTransaction(@Body transaction: TransactionModel,
                            @Header("Authorization") authorization: String?) : Call<Any>
+
+        @GET("/offer/sended")
+        fun getOffersISent(@Header("Authorization") authorization: String?): Call<List<OfferModel>>
+
+        @GET("/offer/received")
+        fun getOffersIReceived(@Header("Authorization") authorization: String?): Call<List<OfferModel>>
+
+        @POST("/offer")
+        fun createOffer(@Body createOfferRequestModel: CreateOfferRequestModel,
+                         @Header("Authorization") authorization: String?) : Call<Any>
+
+        @POST("/offer/process-offer")
+        fun processOffer(@Body processOfferRequest: ProcessOfferRequestModel,
+                           @Header("Authorization") authorization: String?) : Call<Any>
     }
 }

@@ -101,7 +101,7 @@ class LoginFragment : Fragment() {
                     response.body()?.token?.let { Authentication.saveToken(it) }
 
                     val mainActivity: MainActivity = activity as MainActivity
-
+                    mainActivity.username = username
                     mainActivity.switchToMyTransactionsFragment()
                     mainActivity.updateNavigationMenu(loggedIn = true)
                 }

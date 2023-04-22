@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
+    var username: String? = null
     var drawerLayout: DrawerLayout? = null;
     var navigationView: NavigationView? = null;
 
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_record_an_exchange -> replaceFragment(RecordAnExchangeFragment(), it.title.toString())
                 R.id.nav_offer_a_transaction -> replaceFragment(OfferATransactionFragment(), it.title.toString())
                 R.id.nav_my_transactions -> replaceFragment(MyTransactionsFragment(), it.title.toString())
+                R.id.nav_offers_i_sent -> replaceFragment(OffersISentFragment(), it.title.toString())
+                R.id.nav_offers_i_received -> replaceFragment(OffersIReceivedFragment(), it.title.toString())
                 R.id.nav_logout -> logout()
                 R.id.nav_login -> replaceFragment(LoginFragment(), it.title.toString())
                 R.id.nav_signup -> replaceFragment(SignupFragment(), it.title.toString())
@@ -51,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         updateNavigationMenu(isUserLoggedIn)
     }
 
-    private fun logout() {
+     fun logout() {
         Authentication.clearToken()
         replaceFragment(ExchangeRateFragment(), "Exchange Rate")
         updateNavigationMenu(loggedIn = false)
@@ -91,5 +94,17 @@ class MainActivity : AppCompatActivity() {
 
     fun switchToMyTransactionsFragment() {
         replaceFragment(MyTransactionsFragment(), "My Transactions")
+    }
+
+    fun switchToOfferATransactionFragment() {
+        replaceFragment(OfferATransactionFragment(), "Offer a Transaction to a User")
+    }
+
+    fun switchToOffersIReceivedFragment() {
+        replaceFragment(OffersIReceivedFragment(), "Offers I Received")
+    }
+
+    fun switchToOffersISentFragment() {
+        replaceFragment(OffersISentFragment(), "Offers I Sent")
     }
 }

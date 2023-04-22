@@ -67,4 +67,45 @@ object ValidatorUtils {
         return inputIsValid
     }
 
+    fun validateOfferInput(receiver: String?,
+                           offeredAmount: String?,
+                           requestedAmount: String?,
+                           receiverEditText: TextInputLayout?,
+                           offeredAmountEditText: TextInputLayout?,
+                           requestedAmountEditText: TextInputLayout?): Boolean {
+
+        var inputIsValid = true
+
+        if (receiver == null || offeredAmount == null || requestedAmount == null) {
+            return false
+        }
+
+        if (receiver.isBlank()) {
+            inputIsValid = false
+            receiverEditText?.error = "Please enter the receiver's username"
+        }
+        else {
+            receiverEditText?.error = null
+        }
+
+        if (offeredAmount.isBlank()) {
+            inputIsValid = false
+            offeredAmountEditText?.error = "Please enter a valid number"
+        }
+        else {
+            offeredAmountEditText?.error = null
+        }
+
+        if (requestedAmount.isBlank()) {
+            inputIsValid = false
+            requestedAmountEditText?.error = "Please enter a valid number"
+        }
+        else {
+            requestedAmountEditText?.error = null
+        }
+
+        return inputIsValid
+    }
+
+
 }
