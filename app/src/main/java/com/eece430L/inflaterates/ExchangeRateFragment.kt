@@ -1,7 +1,8 @@
 package com.eece430L.inflaterates
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.ExchangeRatesModel
 import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil
@@ -41,7 +43,7 @@ class ExchangeRateFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view: View =  inflater.inflate(R.layout.fragment_exchange_rate, container, false)
+        val view: View =  inflater.inflate(R.layout.fragment_exchange_rate, container, false)
 
         buyUsdTextView = view.findViewById(R.id.lbp_to_usd_textview)
         sellUsdTextView = view.findViewById(R.id.usd_to_lbp_textview)
@@ -51,6 +53,14 @@ class ExchangeRateFragment : Fragment() {
         refreshButton?.setOnClickListener { _ -> fetchRates() }
 
         moneyAmountEditText = view.findViewById(R.id.moneyAmount)
+        moneyAmountEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable?) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                moneyAmountEditText?.error = null
+            }
+        })
+
         conversionTypeRadioGroup = view.findViewById(R.id.conversionType)
         convertButton = view.findViewById(R.id.convertButton)
         converterResultTextView = view.findViewById(R.id.converterResult)
@@ -104,6 +114,11 @@ class ExchangeRateFragment : Fragment() {
     }
 
     private fun convert() {
+
+        if(moneyAmountEditText?.text?.isBlank() == true) {
+            moneyAmountEditText?.error = "Please enter a number"
+            return
+        }
 
         val moneyAmount = moneyAmountEditText?.text.toString().toDoubleOrNull() ?: return
 

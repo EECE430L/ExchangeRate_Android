@@ -62,7 +62,7 @@ object InflateRatesService {
         fun addTransaction(@Body transaction: TransactionModel,
                            @Header("Authorization") authorization: String?) : Call<Any>
 
-        @GET("/offer/sended")
+        @GET("/offer/sent")
         fun getOffersISent(@Header("Authorization") authorization: String?): Call<List<OfferModel>>
 
         @GET("/offer/received")
