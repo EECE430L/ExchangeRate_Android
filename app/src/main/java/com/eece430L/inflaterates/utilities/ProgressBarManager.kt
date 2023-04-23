@@ -5,6 +5,7 @@ import android.app.Dialog
 import com.eece430L.inflaterates.R
 import java.lang.ref.WeakReference
 
+// ChatGPT
 class ProgressBarManager {
 
     private var progressBar: Dialog? = null

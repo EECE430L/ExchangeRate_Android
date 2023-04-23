@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="80dp">
-
+    android:layout_marginTop="80dp"
+    android:orientation="vertical">
+    <!--    https://youtu.be/HwYENW0RyY4-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_slab"
-        android:text="Inflate Rates"
         android:background="@color/dark_blue"
-        android:textSize="60sp"
-        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_slab"
         android:padding="25dp"
-        />
+        android:text="Inflate Rates"
+        android:textColor="@color/white"
+        android:textSize="60sp" />
 
 </LinearLayout>

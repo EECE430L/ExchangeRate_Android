@@ -10,6 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+//      https://github.com/PhilJay/MPAndroidChart#quick-start
+//      https://stackoverflow.com/questions/69112214/cannot-resolve-class-com-github-mikephil-charting-charts-barchart-mpandroidchar
         maven {
             url "https://jitpack.io"
         }

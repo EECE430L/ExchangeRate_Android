@@ -2,11 +2,11 @@ package com.eece430L.inflaterates
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.LbpToUsdFluctuationModel
 import com.eece430L.inflaterates.api.models.RatesPercentChangesModel
@@ -15,21 +15,15 @@ import com.eece430L.inflaterates.api.models.UsdToLbpFluctuationModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.CombinedData
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class StatisticsFragment : Fragment() {
 
@@ -107,6 +101,7 @@ class StatisticsFragment : Fragment() {
         })
     }
 
+//    ChatGPT
     private fun updateChart() {
 
         getFluctuations()

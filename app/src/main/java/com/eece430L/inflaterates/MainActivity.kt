@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         replaceFragment(ExchangeRateFragment(), "Exchange Rate")
 
+//        https://youtu.be/AxjKfZr3Crk
         navigationView = findViewById(R.id.navigation_view)
         navigationView?.setNavigationItemSelectedListener {
 

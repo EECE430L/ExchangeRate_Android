@@ -2,17 +2,16 @@ package com.eece430L.inflaterates
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.TokenModel
 import com.eece430L.inflaterates.api.models.UserModel
@@ -34,11 +33,6 @@ class LoginFragment : Fragment() {
     private var passwordEditText: TextInputLayout? = null
     private var loginButton : Button? = null
     private var linkToSignUpTexView: TextView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,6 +56,7 @@ class LoginFragment : Fragment() {
         linkToSignUpTexView?.setOnClickListener { _ ->
             (activity as MainActivity).switchToSignUpFragment()
         }
+//        https://www.geeksforgeeks.org/how-to-underline-text-in-textview-in-android/
         val linkToSignUp = SpannableString("Don't have an account? Register now!")
         linkToSignUp.setSpan(UnderlineSpan(), 0, linkToSignUp.length, 0)
         linkToSignUpTexView?.text = linkToSignUp
@@ -70,7 +65,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
-
+//        ChatGPT
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(loginButton?.windowToken, 0)
 

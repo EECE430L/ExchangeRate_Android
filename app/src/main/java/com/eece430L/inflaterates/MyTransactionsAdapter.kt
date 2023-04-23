@@ -9,6 +9,7 @@ import com.eece430L.inflaterates.api.models.MyTransactionModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+// ChatGPT
 class MyTransactionsAdapter (private val inflater: LayoutInflater,
                              private val dataSource: List<MyTransactionModel>)
     : BaseAdapter() {

@@ -3,16 +3,15 @@ package com.eece430L.inflaterates
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.MyTransactionModel
-import com.eece430L.inflaterates.api.models.OfferModel
 import com.eece430L.inflaterates.utilities.Authentication
 import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil
 import com.eece430L.inflaterates.utilities.ProgressBarManager
@@ -74,7 +73,7 @@ class MyTransactionsFragment : Fragment() {
         }
 
         progressBarManager.showProgressBar(requireActivity())
-
+//        Inspired by 430L mobile labs
         InflateRatesService.inflateRatesApi().getMyTransactions(
             "Bearer ${Authentication.getToken()}")
             .enqueue(object: Callback<List<MyTransactionModel>> {

@@ -3,6 +3,7 @@ package com.eece430L.inflaterates.utilities
 import android.content.Context
 import android.content.SharedPreferences
 
+// based on EECE430L mobile labs
 object Authentication {
 
     private var token: String? = null

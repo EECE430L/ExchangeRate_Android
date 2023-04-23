@@ -35,10 +35,6 @@ class SignupFragment : Fragment() {
     private var signupButton : Button? = null
     private var linkToLoginTextView: TextView? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_signup, container, false)

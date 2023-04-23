@@ -13,7 +13,7 @@ object ValidatorUtils {
         if (username == null || password == null) {
             return false
         }
-
+//        ChatGPT
         if (username.isBlank()) {
             inputIsValid = false
             usernameInputLayout?.error = "Please enter your username"
@@ -121,5 +121,4 @@ object ValidatorUtils {
         emailEditText?.error = null
         return true
     }
-
 }

@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/dark_blue"
-                    android:text="USD to LBP" />
+                    android:text="Sell USD" />
             </RadioGroup>
 
             <Button

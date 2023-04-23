@@ -1,13 +1,12 @@
 package com.eece430L.inflaterates.api
 
-import android.view.SurfaceControl
 import com.eece430L.inflaterates.api.models.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
+// inspired by EECE430L mobile labs
 object InflateRatesService {
 
     private const val API_URL: String = "https://exchangeapp.azurewebsites.net/"

@@ -19,7 +19,7 @@
             android:textColor="@color/dark_blue"
             android:textSize="30sp"
             android:textStyle="bold" />
-
+        <!--Card design inspired by my teammate Nadim Akkoui's website design-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -242,7 +242,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
+        <!--Converter taken from 430L corresponding lab-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -276,24 +276,23 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:checkedButton="@+id/radioButtonOption1"
-                android:orientation="horizontal"
-                >
-
+                android:orientation="horizontal">
+                <!-- android:buttonTint from  https://stackoverflow.com/questions/17120199/change-the-circle-color-of-radio-button-->
                 <RadioButton
                     android:id="@+id/convertUsdToLbp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:buttonTint="@color/dark_blue"
                     android:checked="true"
-                    android:text="USD to LBP"
-                    android:buttonTint="@color/dark_blue"/>
+                    android:text="USD to LBP" />
 
                 <RadioButton
                     android:id="@+id/convertLbpToUsd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LBP to USD"
-                    android:buttonTint="@color/dark_blue"/>
+                    android:buttonTint="@color/dark_blue"
+                    android:text="LBP to USD" />
 
             </RadioGroup>
 
@@ -304,7 +303,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text="Convert"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
 
             <TextView
                 android:id="@+id/converterResult"

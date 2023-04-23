@@ -27,10 +27,6 @@ class RecordAnExchangeFragment : Fragment() {
     private var addTransactionButton: Button? = null
     private var transactionTypeRadioGroup: RadioGroup? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_record_an_exchange, container, false)

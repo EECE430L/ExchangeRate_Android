@@ -4,6 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.textfield.TextInputLayout
 
+// https://stackoverflow.com/questions/68285436/how-do-i-clear-an-error-when-typing-in-an-edittext-field
+// Converted to utility function by ChatGPT
 object TextChangeListenerUtils {
 
       fun setTextChangeListener(textInputLayout: TextInputLayout) {
