@@ -45,7 +45,7 @@ class RecordAnExchangeFragment : Fragment() {
         addTransactionButton?.setOnClickListener { _ -> addTransaction() }
 
         transactionTypeRadioGroup = view.findViewById(R.id.transaction_type_RadioGroup)
-        transactionTypeRadioGroup?.check(R.id.sell_usd_RadioButton)
+        transactionTypeRadioGroup?.check(R.id.usd_to_lbp_RadioButton)
 
         return view
     }
@@ -71,7 +71,7 @@ class RecordAnExchangeFragment : Fragment() {
         lbpAmountEditText?.editText?.setText("")
 
         val usdToLbp: Boolean =
-            transactionTypeRadioGroup?.checkedRadioButtonId == R.id.sell_usd_RadioButton
+            transactionTypeRadioGroup?.checkedRadioButtonId == R.id.usd_to_lbp_RadioButton
 
         val transaction = TransactionModel(
             usdAmount?.toFloatOrNull(), lbpAmount?.toFloatOrNull(), usdToLbp)

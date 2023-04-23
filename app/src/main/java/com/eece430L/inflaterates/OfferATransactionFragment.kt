@@ -42,7 +42,7 @@ class OfferATransactionFragment : Fragment() {
         TextChangeListenerUtils.setTextChangeListener(requestedAmountEditText!!)
 
         transactionTypeRadioGroup = view.findViewById(R.id.transaction_type_RadioGroup)
-        transactionTypeRadioGroup?.check(R.id.sell_usd_RadioButton)
+        transactionTypeRadioGroup?.check(R.id.usd_to_lbp_RadioButton)
 
         createOfferButton = view.findViewById(R.id.create_offer_Button)
         createOfferButton?.setOnClickListener { _ -> createOffer() }
@@ -70,7 +70,7 @@ class OfferATransactionFragment : Fragment() {
         }
 
         val usdToLbp: Boolean =
-            transactionTypeRadioGroup?.checkedRadioButtonId == R.id.sell_usd_RadioButton
+            transactionTypeRadioGroup?.checkedRadioButtonId == R.id.usd_to_lbp_RadioButton
 
         val createOfferRequest = CreateOfferRequestModel(
             receiver,
