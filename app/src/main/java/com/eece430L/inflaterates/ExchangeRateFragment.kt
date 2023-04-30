@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -25,6 +26,10 @@ import java.util.*
 class ExchangeRateFragment : Fragment() {
 
     private val progressBarManager = ProgressBarManager()
+
+    private var usdToLbpExchangeRateContainer: LinearLayout? = null
+    private var lbpToUsdExchangeRateContainer: LinearLayout? = null
+    private var lastRefreshedDateTimeContainer: LinearLayout? = null
 
     private var buyUsdTextView: TextView? = null
     private var sellUsdTextView: TextView? = null
@@ -44,6 +49,10 @@ class ExchangeRateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_exchange_rate, container, false)
+
+        lbpToUsdExchangeRateContainer = view.findViewById(R.id.lbp_to_usd_exchange_rate_container)
+        usdToLbpExchangeRateContainer = view.findViewById(R.id.usd_to_lbp_exchange_rate_container)
+        lastRefreshedDateTimeContainer = view.findViewById(R.id.last_refreshed_date_time_container)
 
         buyUsdTextView = view.findViewById(R.id.lbp_to_usd_textview)
         sellUsdTextView = view.findViewById(R.id.usd_to_lbp_textview)
@@ -82,13 +91,29 @@ class ExchangeRateFragment : Fragment() {
                     val lbpToUsd = response.body()?.lbpToUsd
                     val usdToLbp = response.body()?.usdToLbp
                     lbpToUsd?.let {
-                        buyUsdTextView?.text = if (it.toDouble() != 0.0) it.toString() else "N/A"
+                        if(it.toDouble() != 0.0) {
+                            buyUsdTextView?.text = it.toString()
+                            lbpToUsdExchangeRateContainer?.contentDescription = "LBP to USD exchange rate is ${it.toDouble()}"
+                        }
+                        else {
+                            buyUsdTextView?.text = "N/A"
+                            lbpToUsdExchangeRateContainer?.contentDescription = "LBP to USD exchange rate is not available"
+                        }
                     }
                     usdToLbp?.let {
-                        sellUsdTextView?.text = if (it.toDouble() != 0.0) it.toString() else "N/A"
+                        if(it.toDouble() != 0.0) {
+                            sellUsdTextView?.text = it.toString()
+                            usdToLbpExchangeRateContainer?.contentDescription = "USD to LBP exchange rate is ${it.toDouble()}"
+                        }
+                        else {
+                            sellUsdTextView?.text = "N/A"
+                            usdToLbpExchangeRateContainer?.contentDescription = "USD to LBP exchange rate is not available"
+                        }
                     }
-                    lastRefreshedDateTimeTextView?.text =
-                        SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
+                    val lastRefreshedDateTime = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
+                    lastRefreshedDateTimeTextView?.text = lastRefreshedDateTime
+                    lastRefreshedDateTimeContainer?.contentDescription = "Exchange rates were last refreshed on $lastRefreshedDateTime"
+
                 }
                 else {
                     var message = HttpStatusCodesUtil.httpStatusCodeToMessage(response.code())

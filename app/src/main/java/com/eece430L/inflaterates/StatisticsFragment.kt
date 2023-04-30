@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
@@ -26,6 +27,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class StatisticsFragment : Fragment() {
+
+    private var lbpToUsdPercentChangeContainer: LinearLayout? = null
+    private var usdToLbpPercentChangeContainer: LinearLayout? = null
+    private var lbpToUsdTransactionsNumberContainer: LinearLayout? = null
+    private var usdToLbpTransactionsNumberContainer: LinearLayout? = null
 
     private var chart: LineChart? = null
     private var lbpToUsdPercentChangeTextView: TextView? = null
@@ -50,6 +56,11 @@ class StatisticsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_statistics, container, false)
 
+        lbpToUsdPercentChangeContainer = view.findViewById(R.id.lbp_to_usd_percent_change_container)
+        usdToLbpPercentChangeContainer = view.findViewById(R.id.usd_to_lbp_percent_change_container)
+        lbpToUsdTransactionsNumberContainer = view.findViewById(R.id.lbp_to_usd_transactions_number_container)
+        usdToLbpTransactionsNumberContainer = view.findViewById(R.id.usd_to_lbp_transactions_number_container)
+
         chart = view.findViewById(R.id.line_chart)
         lbpToUsdPercentChangeTextView = view.findViewById(R.id.lbp_to_usd_percent_change_textview)
         usdToLbpPercentChangeTextView = view.findViewById(R.id.usd_to_lbp_percent_change_textview)
@@ -72,15 +83,27 @@ class StatisticsFragment : Fragment() {
                 response: Response<TransactionsNumberModel>
             ) {
                 if(response.isSuccessful) {
-                    lbpToUsdTransactionsNumberTextView?.text =
-                        response.body()?.lbpToUsdTransactionsNumber.toString()
+                    val lbpToUsdTransactionsNumber = response.body()?.lbpToUsdTransactionsNumber
+                    lbpToUsdTransactionsNumberTextView?.text = lbpToUsdTransactionsNumber?.toString() ?: "N/A"
+                    setTransactionsNumberContentDescription(lbpToUsdTransactionsNumber, lbpToUsdTransactionsNumberContainer, "LBP to USD")
 
-                    usdToLbpTransactionsNumberTextView?.text =
-                        response.body()?.usdToLbpTransactionsNumber.toString()
+                    val usdToLbpTransactionsNumber = response.body()?.usdToLbpTransactionsNumber
+                    usdToLbpTransactionsNumberTextView?.text = usdToLbpTransactionsNumber?.toString() ?: "N/A"
+                    setTransactionsNumberContentDescription(usdToLbpTransactionsNumber, usdToLbpTransactionsNumberContainer, "USD to LBP")
+
                 }
             }
             override fun onFailure(call: Call<TransactionsNumberModel>, t: Throwable) {}
         })
+    }
+
+    private fun setTransactionsNumberContentDescription(transactionsNumber: Int?, transactionsNumberContainer: LinearLayout?, type: String) {
+        if(transactionsNumber == null) {
+            transactionsNumberContainer?.contentDescription = "Number of $type transactions is not available"
+        }
+        else {
+            transactionsNumberContainer?.contentDescription = "$transactionsNumber $type transactions were performed"
+        }
     }
 
     private fun updateTransactionsNumber() {
@@ -90,18 +113,35 @@ class StatisticsFragment : Fragment() {
                 response: Response<RatesPercentChangesModel>
             ) {
                 if(response.isSuccessful) {
-                    lbpToUsdPercentChangeTextView?.text =
-                        response.body()?.lbpToUsdPercentChange.toString()
+                    val lbpToUsdPercentChange = response.body()?.lbpToUsdPercentChange
+                    lbpToUsdPercentChangeTextView?.text = lbpToUsdPercentChange?.toString() ?: "N/A"
+                    setPercentChangeContentDescription(lbpToUsdPercentChange, lbpToUsdPercentChangeContainer, "LBP to USD")
 
-                    usdToLbpPercentChangeTextView?.text =
-                        response.body()?.usdToLbpPercentChange.toString()
+                    val usdToLbpPercentChange = response.body()?.usdToLbpPercentChange
+                    usdToLbpPercentChangeTextView?.text = usdToLbpPercentChange?.toString() ?: "N/A"
+                    setPercentChangeContentDescription(usdToLbpPercentChange, usdToLbpPercentChangeContainer, "USD to LBP")
                 }
             }
             override fun onFailure(call: Call<RatesPercentChangesModel>, t: Throwable) {}
         })
     }
 
-//    ChatGPT
+    private fun setPercentChangeContentDescription(percentChange: Float?, percentChangeContainer: LinearLayout?, type: String) {
+        if(percentChange == null) {
+            percentChangeContainer?.contentDescription = "$type exchange rate percent change is not available"
+        }
+        else if(percentChange > 0) {
+            percentChangeContainer?.contentDescription = "$type exchange rate has decreased by ${-percentChange} percent"
+        }
+        else if(percentChange.toInt() == 0) {
+            percentChangeContainer?.contentDescription = "$type exchange rate has not changed"
+        }
+        else {
+            percentChangeContainer?.contentDescription = "$type exchange rate has increased by $percentChange percent"
+        }
+    }
+
+    //    ChatGPT
     private fun updateChart() {
 
         getFluctuations()

@@ -4,18 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.eece430L.inflaterates.api.models.MyTransactionModel
-import java.text.SimpleDateFormat
-import java.util.*
+import com.eece430L.inflaterates.utilities.ContentDescriptionUtils
+import com.eece430L.inflaterates.utilities.DateTimeFormatUtils
 
 // ChatGPT
 class MyTransactionsAdapter (private val inflater: LayoutInflater,
                              private val dataSource: List<MyTransactionModel>)
     : BaseAdapter() {
-
-    private val ISODateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-    private val localDateTimeFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = inflater.inflate(R.layout.transaction_list_item, parent, false)
@@ -33,10 +31,15 @@ class MyTransactionsAdapter (private val inflater: LayoutInflater,
             if(it.usdToLbp == null) "N/A" else if (it.usdToLbp!!) "USD to LBP" else "LBP to USD"
         }
 
+        val transactionItemContainer: LinearLayout? = view.findViewById(R.id.transaction_item_container)
+        ContentDescriptionUtils.setTransactionItemContentDescription(
+            transactionItemContainer, transactionItem=dataSource[position])
+
         view.findViewById<TextView>(R.id.date_and_time_TextView).text =
             dataSource[position].addedDate?.let {
-                ISODateTimeFormat.parse(it)
-                    ?.let { localDateTimeFormat.format(it) }
+                DateTimeFormatUtils.iSODateTimeStringToLocalDateTimeString(
+                    it
+                )
             }
         return view
     }

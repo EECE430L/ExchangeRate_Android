@@ -12,6 +12,7 @@ import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.OfferModel
 import com.eece430L.inflaterates.api.models.ProcessOfferRequestModel
 import com.eece430L.inflaterates.utilities.Authentication
+import com.eece430L.inflaterates.utilities.ContentDescriptionUtils
 import com.eece430L.inflaterates.utilities.ProgressBarManager
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -32,12 +33,18 @@ class OffersAdapter(private val activity: Activity,
             view.findViewById<TextView>(R.id.sender_or_receiver_TextView).text = dataSource[position].offerer
             view.findViewById<TextView>(R.id.sender_label_TextView).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.receiver_label_TextView).visibility = View.GONE
+
         }
         else {
             view.findViewById<TextView>(R.id.sender_or_receiver_TextView).text = dataSource[position].receiver
             view.findViewById<TextView>(R.id.sender_label_TextView).visibility = View.GONE
             view.findViewById<TextView>(R.id.receiver_label_TextView).visibility = View.VISIBLE
         }
+
+        val offerItemContainer: LinearLayout? = view.findViewById(R.id.offer_item_container)
+        ContentDescriptionUtils.setOfferItemContentDescription(offerItemContainer,
+            offerItem=dataSource[position], isViewingReceivedOffers
+        )
 
         view.findViewById<TextView>(R.id.offered_amount_TextView).text =
             dataSource[position].offeredAmount.toString()

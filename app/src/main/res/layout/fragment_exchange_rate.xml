@@ -32,6 +32,7 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/lbp_to_usd_exchange_rate_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -139,7 +140,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/usd_to_lbp_exchange_rate_container">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,6 +233,7 @@
 
             <Button
                 android:id="@+id/refresh_button"
+                android:contentDescription="refresh exchange rate"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
@@ -241,6 +244,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/last_refreshed_date_time_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
