@@ -54,4 +54,28 @@ object ContentDescriptionUtils {
 
         offerItemContainer?.contentDescription = contentDescription
     }
+
+     fun setPercentChangeContentDescription(percentChange: Float?, percentChangeContainer: LinearLayout?, type: String) {
+        if(percentChange == null) {
+            percentChangeContainer?.contentDescription = "$type exchange rate percent change is not available"
+        }
+        else if(percentChange < 0) {
+            percentChangeContainer?.contentDescription = "$type exchange rate has decreased by ${-percentChange} percent"
+        }
+        else if(percentChange.toInt() == 0) {
+            percentChangeContainer?.contentDescription = "$type exchange rate has not changed"
+        }
+        else {
+            percentChangeContainer?.contentDescription = "$type exchange rate has increased by $percentChange percent"
+        }
+    }
+
+     fun setTransactionsNumberContentDescription(transactionsNumber: Int?, transactionsNumberContainer: LinearLayout?, type: String) {
+        if(transactionsNumber == null) {
+            transactionsNumberContainer?.contentDescription = "Number of $type transactions is not available"
+        }
+        else {
+            transactionsNumberContainer?.contentDescription = "$transactionsNumber $type transactions were performed"
+        }
+    }
 }

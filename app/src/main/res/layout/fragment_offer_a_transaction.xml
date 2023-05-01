@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
                     android:buttonTint="@color/dark_blue"
-                    android:text="LBP to USSD" />
+                    android:text="LBP to USD" />
 
                 <RadioButton
                     android:id="@+id/usd_to_lbp_RadioButton"

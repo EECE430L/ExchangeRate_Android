@@ -9,13 +9,47 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/header_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_slab"
+                android:padding="16dp"
+                android:text="Displaying Statistics between start date and end date"
+                android:textColor="@color/dark_blue"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/set_statistics_time_frame_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:paddingHorizontal="50dp"
+                android:text="Set statistics time frame"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="20dp"
+            android:background="@color/dark_blue" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_slab"
             android:padding="16dp"
-            android:text="24-Hours Exchange Rates Percent Change"
+            android:text="Exchange Rates Percent Change"
             android:textColor="@color/dark_blue"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -33,10 +67,10 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/lbp_to_usd_percent_change_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/lbp_to_usd_percent_change_container">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,10 +171,10 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/usd_to_lbp_percent_change_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/usd_to_lbp_percent_change_container">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -241,7 +275,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_slab"
             android:padding="16dp"
-            android:text="Number of Transactions in The Last 24-Hours"
+            android:text="Number of Transactions"
             android:textColor="@color/dark_blue"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -259,10 +293,10 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/lbp_to_usd_transactions_number_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/lbp_to_usd_transactions_number_container">
+                android:orientation="vertical">
 
 
                 <LinearLayout
@@ -364,10 +398,10 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/usd_to_lbp_transactions_number_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/usd_to_lbp_transactions_number_container">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -445,8 +479,8 @@
                         android:id="@+id/usd_to_lbp_transactions_number_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="N/A"
                         android:layout_marginBottom="10dp"
+                        android:text="N/A"
                         android:textColor="@color/dark_blue"
                         android:textSize="30sp"
                         android:textStyle="bold" />
@@ -466,7 +500,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_slab"
             android:padding="16dp"
-            android:text="Exchange Rates vs Time Over The Last Month"
+            android:text="Exchange Rates vs Time"
             android:textColor="@color/dark_blue"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -475,7 +509,8 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:layout_marginBottom="50dp"/>
 
     </LinearLayout>
 

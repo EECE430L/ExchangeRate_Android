@@ -32,28 +32,29 @@ object InflateRatesService {
         fun getExchangeRates(): Call<ExchangeRatesModel>
 
         @GET("/statistics/todays-transactions")
-        fun getTransactionNumbers(): Call<TransactionsNumberModel>
+        fun getTransactionNumbers(@Query("startYear") startYear: Int,
+                                  @Query("startMonth") startMonth: Int,
+                                  @Query("startDay") startDay: Int,
+                                  @Query("endYear") endYear: Int,
+                                  @Query("endMonth") endMonth: Int,
+                                  @Query("endDay") endDay: Int): Call<TransactionsNumberModel>
 
         @GET("/statistics/rates-percent-change")
-        fun getPercentChanges(): Call<RatesPercentChangesModel>
+        fun getPercentChanges(@Query("startYear") startYear: Int,
+                              @Query("startMonth") startMonth: Int,
+                              @Query("startDay") startDay: Int,
+                              @Query("endYear") endYear: Int,
+                              @Query("endMonth") endMonth: Int,
+                              @Query("endDay") endDay: Int): Call<RatesPercentChangesModel>
 
-        @GET("/fluctuations/usd-to-lbp")
-        fun getUsdToLbpFluctuations(@Query("startYear") startYear: Int,
+        @GET("/fluctuations")
+        fun getFluctuations(@Query("startYear") startYear: Int,
                                     @Query("startMonth") startMonth: Int,
                                     @Query("startDay") startDay: Int,
                                     @Query("endYear") endYear: Int,
                                     @Query("endMonth") endMonth: Int,
                                     @Query("endDay") endDay: Int
-        ): Call<List<UsdToLbpFluctuationModel>>
-
-        @GET("/fluctuations/lbp-to-usd")
-        fun getLbpToUsdFluctuations(@Query("startYear") startYear: Int,
-                                    @Query("startMonth") startMonth: Int,
-                                    @Query("startDay") startDay: Int,
-                                    @Query("endYear") endYear: Int,
-                                    @Query("endMonth") endMonth: Int,
-                                    @Query("endDay") endDay: Int
-        ): Call<List<LbpToUsdFluctuationModel>>
+        ): Call<List<FluctuationModel>>
 
         @GET("/transaction")
         fun getMyTransactions(@Header("Authorization") authorization: String?) : Call<List<MyTransactionModel>>

@@ -1,32 +1,37 @@
 package com.eece430L.inflaterates
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.eece430L.inflaterates.api.InflateRatesService
-import com.eece430L.inflaterates.api.models.LbpToUsdFluctuationModel
+import com.eece430L.inflaterates.api.models.FluctuationModel
 import com.eece430L.inflaterates.api.models.RatesPercentChangesModel
 import com.eece430L.inflaterates.api.models.TransactionsNumberModel
-import com.eece430L.inflaterates.api.models.UsdToLbpFluctuationModel
+import com.eece430L.inflaterates.utilities.ContentDescriptionUtils
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StatisticsFragment : Fragment() {
+class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
+
+    private var headerTextView: TextView? = null
 
     private var lbpToUsdPercentChangeContainer: LinearLayout? = null
     private var usdToLbpPercentChangeContainer: LinearLayout? = null
@@ -39,27 +44,33 @@ class StatisticsFragment : Fragment() {
     private var usdToLbpTransactionsNumberTextView: TextView? = null
     private var lbpToUsdTransactionsNumberTextView: TextView? = null
 
+    private var setStatisticsTimeFrameButton: Button? = null
+
     private var dates: ArrayList<String> = ArrayList()
     private var usdToLbpFluctuations: ArrayList<Float> = ArrayList()
     private var lbpToUsdFluctuations: ArrayList<Float> = ArrayList()
 
-    private val calendar = Calendar.getInstance()
-    private var currentYear = calendar.get(Calendar.YEAR)
-    private var currentMonth = calendar.get(Calendar.MONTH) + 1
-    private val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    private var selectedStartYear = -1
+    private var selectedStartMonth = -1
+    private var selectedStartDay = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var selectedEndYear = -1
+    private var selectedEndMonth = -1
+    private var selectedEndDay = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_statistics, container, false)
 
+        headerTextView = view.findViewById(R.id.header_TextView)
+
         lbpToUsdPercentChangeContainer = view.findViewById(R.id.lbp_to_usd_percent_change_container)
         usdToLbpPercentChangeContainer = view.findViewById(R.id.usd_to_lbp_percent_change_container)
         lbpToUsdTransactionsNumberContainer = view.findViewById(R.id.lbp_to_usd_transactions_number_container)
         usdToLbpTransactionsNumberContainer = view.findViewById(R.id.usd_to_lbp_transactions_number_container)
+
+        setStatisticsTimeFrameButton = view.findViewById(R.id.set_statistics_time_frame_Button)
+        setStatisticsTimeFrameButton?.setOnClickListener { _ -> setStatisticsTimeFrame() }
 
         chart = view.findViewById(R.id.line_chart)
         lbpToUsdPercentChangeTextView = view.findViewById(R.id.lbp_to_usd_percent_change_textview)
@@ -68,16 +79,84 @@ class StatisticsFragment : Fragment() {
         lbpToUsdTransactionsNumberTextView = view.findViewById(R.id.lbp_to_usd_transactions_number_textview)
         usdToLbpTransactionsNumberTextView = view.findViewById(R.id.usd_to_lbp_transactions_number_textview)
 
+        setDefaultStatisticsTimeFrame()
+        updateTheHeaderToMatchSelectedDates()
+
         updatePercentChange()
         updateTransactionsNumber()
-        updateChart()
+        updateFluctuations()
 
         return view
     }
 
-    private fun updatePercentChange() {
+    private fun setDefaultStatisticsTimeFrame() {
+        val calendar = Calendar.getInstance()
+        selectedEndYear = calendar.get(Calendar.YEAR)
+        selectedEndMonth = calendar.get(Calendar.MONTH) + 1
+        selectedEndDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        InflateRatesService.inflateRatesApi().getTransactionNumbers().enqueue(object: Callback<TransactionsNumberModel> {
+        calendar.add(Calendar.WEEK_OF_YEAR, -1)
+        selectedStartYear = calendar.get(Calendar.YEAR)
+        selectedStartMonth = calendar.get(Calendar.MONTH) + 1
+        selectedStartDay = calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    private fun setStatisticsTimeFrame() {
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            selectedStartYear = year
+            selectedStartMonth = month + 1
+            selectedStartDay = dayOfMonth
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.set(year, month, dayOfMonth)
+            openEndDatePickerDialog(selectedCalendar.time)
+        }, year, month, day)
+        datePickerDialog.setTitle("Select Start Date")
+        datePickerDialog.show()
+    }
+
+    private fun openEndDatePickerDialog(startDate: Date) {
+        val calendar = Calendar.getInstance()
+        calendar.time = startDate
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.set(year, month, dayOfMonth)
+            selectedEndYear = year
+            selectedEndMonth = month + 1
+            selectedEndDay = dayOfMonth
+
+            updateTheHeaderToMatchSelectedDates()
+            updatePercentChange()
+            updateTransactionsNumber()
+            updateFluctuations()
+
+        }, year, month, day)
+        datePickerDialog.datePicker.minDate = startDate.time
+        datePickerDialog.setTitle("Select End Date")
+        datePickerDialog.show()
+    }
+
+    private fun updateTheHeaderToMatchSelectedDates() {
+        headerTextView?.text = "Displaying statistics between " +
+                "$selectedStartYear-$selectedStartMonth-$selectedStartDay and " +
+                "$selectedEndYear-$selectedEndMonth-$selectedEndDay"
+    }
+
+    private fun updatePercentChange() {
+        InflateRatesService.inflateRatesApi().getTransactionNumbers(
+            startYear = selectedStartYear,
+            startMonth = selectedStartMonth,
+            startDay = selectedStartDay,
+            endYear = selectedEndYear,
+            endMonth = selectedEndMonth,
+            endDay= selectedEndDay
+        ).enqueue(object: Callback<TransactionsNumberModel> {
             override fun onResponse(
                 call: Call<TransactionsNumberModel>,
                 response: Response<TransactionsNumberModel>
@@ -85,11 +164,11 @@ class StatisticsFragment : Fragment() {
                 if(response.isSuccessful) {
                     val lbpToUsdTransactionsNumber = response.body()?.lbpToUsdTransactionsNumber
                     lbpToUsdTransactionsNumberTextView?.text = lbpToUsdTransactionsNumber?.toString() ?: "N/A"
-                    setTransactionsNumberContentDescription(lbpToUsdTransactionsNumber, lbpToUsdTransactionsNumberContainer, "LBP to USD")
+                    ContentDescriptionUtils.setTransactionsNumberContentDescription(lbpToUsdTransactionsNumber, lbpToUsdTransactionsNumberContainer, "LBP to USD")
 
                     val usdToLbpTransactionsNumber = response.body()?.usdToLbpTransactionsNumber
                     usdToLbpTransactionsNumberTextView?.text = usdToLbpTransactionsNumber?.toString() ?: "N/A"
-                    setTransactionsNumberContentDescription(usdToLbpTransactionsNumber, usdToLbpTransactionsNumberContainer, "USD to LBP")
+                    ContentDescriptionUtils.setTransactionsNumberContentDescription(usdToLbpTransactionsNumber, usdToLbpTransactionsNumberContainer, "USD to LBP")
 
                 }
             }
@@ -97,63 +176,60 @@ class StatisticsFragment : Fragment() {
         })
     }
 
-    private fun setTransactionsNumberContentDescription(transactionsNumber: Int?, transactionsNumberContainer: LinearLayout?, type: String) {
-        if(transactionsNumber == null) {
-            transactionsNumberContainer?.contentDescription = "Number of $type transactions is not available"
-        }
-        else {
-            transactionsNumberContainer?.contentDescription = "$transactionsNumber $type transactions were performed"
-        }
-    }
+
 
     private fun updateTransactionsNumber() {
-        InflateRatesService.inflateRatesApi().getPercentChanges().enqueue(object: Callback<RatesPercentChangesModel> {
+        InflateRatesService.inflateRatesApi().getPercentChanges(
+            startYear = selectedStartYear,
+            startMonth = selectedStartMonth,
+            startDay = selectedStartDay,
+            endYear = selectedEndYear,
+            endMonth = selectedEndMonth,
+            endDay= selectedEndDay
+        ).enqueue(object: Callback<RatesPercentChangesModel> {
             override fun onResponse(
                 call: Call<RatesPercentChangesModel>,
                 response: Response<RatesPercentChangesModel>
             ) {
                 if(response.isSuccessful) {
                     val lbpToUsdPercentChange = response.body()?.lbpToUsdPercentChange
-                    lbpToUsdPercentChangeTextView?.text = lbpToUsdPercentChange?.toString() ?: "N/A"
-                    setPercentChangeContentDescription(lbpToUsdPercentChange, lbpToUsdPercentChangeContainer, "LBP to USD")
+                    if(lbpToUsdPercentChange == null) {
+                        lbpToUsdPercentChangeTextView?.text = "N/A"
+                    }
+                    else {
+                        lbpToUsdPercentChangeTextView?.text = "$lbpToUsdPercentChange %"
+                    }
+                    ContentDescriptionUtils.setPercentChangeContentDescription(lbpToUsdPercentChange, lbpToUsdPercentChangeContainer, "LBP to USD")
 
                     val usdToLbpPercentChange = response.body()?.usdToLbpPercentChange
-                    usdToLbpPercentChangeTextView?.text = usdToLbpPercentChange?.toString() ?: "N/A"
-                    setPercentChangeContentDescription(usdToLbpPercentChange, usdToLbpPercentChangeContainer, "USD to LBP")
+                    if(usdToLbpPercentChange == null) {
+                        usdToLbpPercentChangeTextView?.text = "N/A"
+                    }
+                    else {
+                        usdToLbpPercentChangeTextView?.text = "$usdToLbpPercentChange %"
+                    }
+                    ContentDescriptionUtils.setPercentChangeContentDescription(usdToLbpPercentChange, usdToLbpPercentChangeContainer, "USD to LBP")
                 }
             }
             override fun onFailure(call: Call<RatesPercentChangesModel>, t: Throwable) {}
         })
     }
 
-    private fun setPercentChangeContentDescription(percentChange: Float?, percentChangeContainer: LinearLayout?, type: String) {
-        if(percentChange == null) {
-            percentChangeContainer?.contentDescription = "$type exchange rate percent change is not available"
-        }
-        else if(percentChange > 0) {
-            percentChangeContainer?.contentDescription = "$type exchange rate has decreased by ${-percentChange} percent"
-        }
-        else if(percentChange.toInt() == 0) {
-            percentChangeContainer?.contentDescription = "$type exchange rate has not changed"
-        }
-        else {
-            percentChangeContainer?.contentDescription = "$type exchange rate has increased by $percentChange percent"
-        }
+    private fun convertDateStringToTimestamp(dateString: String): Long {
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = format.parse(dateString)
+        return date?.time ?: 0L
     }
 
     //    ChatGPT
     private fun updateChart() {
 
-        getFluctuations()
-
         val lbpToUsdFluctuationEntries = mutableListOf<Entry>()
-        for (i in dates.indices) {
-            lbpToUsdFluctuationEntries.add(Entry(i.toFloat(), lbpToUsdFluctuations[i]))
-        }
-
         val usdToLbpFluctuationEntries = mutableListOf<Entry>()
         for (i in dates.indices) {
-            usdToLbpFluctuationEntries.add(Entry(i.toFloat(), usdToLbpFluctuations[i]))
+            val timestamp = convertDateStringToTimestamp(dates[i])
+            lbpToUsdFluctuationEntries.add(Entry(timestamp.toFloat(), lbpToUsdFluctuations[i]))
+            usdToLbpFluctuationEntries.add(Entry(timestamp.toFloat(), usdToLbpFluctuations[i]))
         }
 
         val lbpToUsdFluctuationsDataSet = LineDataSet(lbpToUsdFluctuationEntries, "LBP to USD")
@@ -169,114 +245,76 @@ class StatisticsFragment : Fragment() {
         chart?.setDrawGridBackground(false)
         chart?.invalidate()
 
-        val xAxis: XAxis? = chart?.xAxis
-        xAxis?.position = XAxis.XAxisPosition.BOTTOM
-        xAxis?.valueFormatter = object : ValueFormatter() {
-            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                return dates[value.toInt()]
-            }
-        }
-        xAxis?.setDrawGridLines(false)
+        chart?.xAxis?.isEnabled = false
 
         val yAxisLeft = chart?.axisLeft
         yAxisLeft?.setDrawGridLines(false)
 
-        val yAxisRight = chart?.axisRight
-        yAxisRight?.setDrawGridLines(false)
+        chart?.axisRight?.isEnabled = false
+
+        chart?.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if (e != null) {
+                    val timestamp = e.x.toLong()
+                    val date = Date(timestamp)
+                    val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
+
+                    Snackbar.make(
+                        requireView(),
+                        "Date: $formattedDate | Exchange Rate: ${e.y}" ,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+            override fun onNothingSelected() {}
+        })
     }
 
-    private fun getFluctuations() {
+    private fun updateFluctuations() {
 
-        InflateRatesService.inflateRatesApi().getUsdToLbpFluctuations(
-            startYear = currentYear,
-            startMonth = currentMonth,
-            startDay = 1,
-            endYear = currentYear,
-            endMonth = currentMonth,
-            endDay= daysInMonth
-        ).enqueue(
-            object: Callback<List<UsdToLbpFluctuationModel>> {
-                override fun onResponse(call: Call<List<UsdToLbpFluctuationModel>>,
-                                        response: Response<List<UsdToLbpFluctuationModel>>
-                ) {
-                    println("-----------------------------------------------------------------------------------")
-                    println(response.body()?.size)
-                    println("-----------------------------------------------------------------------------------")
+        dates.clear()
+        lbpToUsdFluctuations.clear()
+        usdToLbpFluctuations.clear()
+
+        InflateRatesService.inflateRatesApi().getFluctuations(
+            startYear = selectedStartYear,
+            startMonth = selectedStartMonth,
+            startDay = selectedStartDay,
+            endYear = selectedEndYear,
+            endMonth = selectedEndMonth,
+            endDay= selectedEndDay).enqueue(object: Callback<List<FluctuationModel>> {
+
+                override fun onResponse(call: Call<List<FluctuationModel>>, response: Response<List<FluctuationModel>>) {
                     if(response.isSuccessful) {
                         for(fluctuation in response.body()!!) {
-                            dates.add(fluctuation.startDate!!)
-//                            usdToLbpFluctuations.add(fluctuation.usdToLbpRate!!)
+                            dates.add(fluctuation.date!!)
+                            if(fluctuation.lbpToUsdRate == null) {
+                                lbpToUsdFluctuations.add(0F)
+                            }
+                            else {
+                                lbpToUsdFluctuations.add(fluctuation.lbpToUsdRate!!)
+                            }
+                            if(fluctuation.usdToLbpRate == null) {
+                                usdToLbpFluctuations.add(0F)
+                            }
+                            else {
+                                usdToLbpFluctuations.add(fluctuation.usdToLbpRate!!)
+                            }
                         }
+                        updateChart()
                     }
                 }
 
-                override fun onFailure(call: Call<List<UsdToLbpFluctuationModel>>, t: Throwable) {
-                    println("-----------------------------------------------------------------------------------")
-                    println(t.message)
-                    println("-----------------------------------------------------------------------------------")
+                override fun onFailure(call: Call<List<FluctuationModel>>, t: Throwable) {
+                    Snackbar.make(
+                        setStatisticsTimeFrameButton as View,
+                        t.message.toString(),
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
         })
-
-        InflateRatesService.inflateRatesApi().getLbpToUsdFluctuations(
-            startYear = currentYear,
-            startMonth = currentMonth,
-            startDay = 1,
-            endYear = currentYear,
-            endMonth = currentMonth,
-            endDay= daysInMonth
-        ).enqueue(
-            object: Callback<List<LbpToUsdFluctuationModel>> {
-                override fun onResponse(call: Call<List<LbpToUsdFluctuationModel>>,
-                                        response: Response<List<LbpToUsdFluctuationModel>>
-                ) {
-                    println("-----------------------------------------------------------------------------------")
-                    println(response.body()?.size)
-                    println("-----------------------------------------------------------------------------------")
-                    if(response.isSuccessful) {
-                        for(fluctuation in response.body()!!) {
-//                            usdToLbpFluctuations.add(fluctuation.lbpToUsdRate!!)
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<List<LbpToUsdFluctuationModel>>, t: Throwable) {
-//                    println("-----------------------------------------------------------------------------------")
-//                    print(t.message)
-//                    println("-----------------------------------------------------------------------------------")
-                }
-        })
-
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.DAY_OF_MONTH, 1)
-        val startDate = cal.time
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val endDate = cal.time
-        val datesList = ArrayList<String>()
-        val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        var currentDate = startDate
-        while (currentDate <= endDate) {
-            datesList.add(dateFormatter.format(currentDate))
-            val calendar = Calendar.getInstance()
-            calendar.time = currentDate
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            currentDate = calendar.time
-        }
-
-        val usdToLbpList = ArrayList<Float>()
-        for (i in 0 until datesList.size) {
-            usdToLbpList.add((Random().nextFloat() * (5000.0 - 1500.0) + 1500.0).toFloat())
-        }
-        val lbpToUsdList = ArrayList<Float>()
-        for (i in 0 until datesList.size) {
-            lbpToUsdList.add((Random().nextFloat() * (1000 - 500) + 1000).toFloat())
-        }
-
-        println("-----------------------------------------------------------------------------------")
-        println("Dates ArrayList: $datesList")
-        println("USD to LBP ArrayList: $usdToLbpList")
-        println("LBP to USD ArrayList: $lbpToUsdList")
-        dates = datesList
-        usdToLbpFluctuations = usdToLbpList
-        lbpToUsdFluctuations = lbpToUsdList
     }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {}
 }
