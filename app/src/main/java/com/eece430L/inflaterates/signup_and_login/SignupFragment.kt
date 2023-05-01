@@ -1,8 +1,7 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.signup_and_login
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -13,6 +12,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.UserModel
 import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil

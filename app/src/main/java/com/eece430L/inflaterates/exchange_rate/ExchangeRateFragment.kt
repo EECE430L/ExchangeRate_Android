@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_rate
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.ExchangeRatesModel
 import com.eece430L.inflaterates.utilities.HttpStatusCodesUtil

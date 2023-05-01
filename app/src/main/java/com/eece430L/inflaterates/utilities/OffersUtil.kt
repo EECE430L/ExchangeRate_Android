@@ -3,7 +3,7 @@ package com.eece430L.inflaterates.utilities
 import android.app.Activity
 import android.view.View
 import com.eece430L.inflaterates.MainActivity
-import com.eece430L.inflaterates.OffersAdapter
+import com.eece430L.inflaterates.exchange_service.OffersAdapter
 import com.eece430L.inflaterates.api.models.OfferModel
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -18,7 +18,8 @@ object OffersUtil {
                                 placeHolderView: View,
                                 progressBarManager: ProgressBarManager,
                                 offers: ArrayList<OfferModel>,
-                                adapter: OffersAdapter) {
+                                adapter: OffersAdapter
+     ) {
 
         apiCall.enqueue(object : Callback<List<OfferModel>> {
 

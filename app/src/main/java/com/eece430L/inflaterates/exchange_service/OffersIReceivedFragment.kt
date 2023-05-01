@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_service
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.OfferModel
 import com.eece430L.inflaterates.utilities.Authentication

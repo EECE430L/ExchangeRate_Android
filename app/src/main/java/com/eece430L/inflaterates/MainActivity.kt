@@ -6,6 +6,11 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.eece430L.inflaterates.exchange_rate.ExchangeRateFragment
+import com.eece430L.inflaterates.exchange_service.*
+import com.eece430L.inflaterates.signup_and_login.LoginFragment
+import com.eece430L.inflaterates.signup_and_login.SignupFragment
+import com.eece430L.inflaterates.statistics.StatisticsFragment
 import com.eece430L.inflaterates.utilities.Authentication
 import com.google.android.material.navigation.NavigationView
 

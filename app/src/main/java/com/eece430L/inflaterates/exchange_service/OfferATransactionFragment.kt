@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_service
 
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.RadioGroup
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.CreateOfferRequestModel
 import com.eece430L.inflaterates.utilities.*

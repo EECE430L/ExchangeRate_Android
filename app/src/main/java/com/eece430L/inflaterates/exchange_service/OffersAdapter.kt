@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_service
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.OfferModel
 import com.eece430L.inflaterates.api.models.ProcessOfferRequestModel

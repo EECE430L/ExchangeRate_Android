@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.statistics
 
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -11,6 +11,7 @@ import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.FluctuationModel
 import com.eece430L.inflaterates.api.models.RatesPercentChangesModel

@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.signup_and_login
 
 import android.app.Activity
 import android.content.Context
@@ -12,6 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.TokenModel
 import com.eece430L.inflaterates.api.models.UserModel

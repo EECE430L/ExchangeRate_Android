@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_service
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.models.MyTransactionModel
 import com.eece430L.inflaterates.utilities.ContentDescriptionUtils
 import com.eece430L.inflaterates.utilities.DateTimeFormatUtils

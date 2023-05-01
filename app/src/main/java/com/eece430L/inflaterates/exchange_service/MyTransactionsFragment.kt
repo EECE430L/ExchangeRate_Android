@@ -1,4 +1,4 @@
-package com.eece430L.inflaterates
+package com.eece430L.inflaterates.exchange_service
 
 import android.os.Bundle
 import android.text.SpannableString
@@ -10,6 +10,8 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.eece430L.inflaterates.MainActivity
+import com.eece430L.inflaterates.R
 import com.eece430L.inflaterates.api.InflateRatesService
 import com.eece430L.inflaterates.api.models.MyTransactionModel
 import com.eece430L.inflaterates.utilities.Authentication
