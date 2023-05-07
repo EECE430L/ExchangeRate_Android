@@ -21,6 +21,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+// https://www.tutorialspoint.com/android/android_list_view.htm
+// an adapter bridges between UI components and the data source that fill data into UI Components
+// OffersAdapter bridges between the offers list view and the data obtained from the backend
 class OffersAdapter(private val activity: Activity,
                     private val inflater: LayoutInflater,
                     private val progressBarManager: ProgressBarManager,

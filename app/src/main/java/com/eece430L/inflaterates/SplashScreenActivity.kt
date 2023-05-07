@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        // render the splash screen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        // start the main activity after 1 s
         val rootLayout = findViewById<View>(android.R.id.content)
         rootLayout.postDelayed({
             val intent = Intent(this, MainActivity::class.java)

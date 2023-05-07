@@ -43,6 +43,9 @@ class LoginFragment : Fragment() {
 
         activity = requireActivity()
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click / text change listeners
+
         navigationView = activity?.findViewById(R.id.navigation_view)
 
         usernameEditText = view.findViewById(R.id.usernameLayout)
@@ -69,6 +72,7 @@ class LoginFragment : Fragment() {
     private fun login() {
 //        ChatGPT
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        // hide the keyboard when the user presses login
         imm.hideSoftInputFromWindow(loginButton?.windowToken, 0)
 
         val username = usernameEditText?.editText?.text?.toString()
@@ -92,8 +96,11 @@ class LoginFragment : Fragment() {
             override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                 progressBarManager.hideProgressBar()
                 if(response.isSuccessful) {
+                    // login was successful
+                    // save the provided token
                     response.body()?.token?.let { Authentication.saveToken(it) }
 
+                    // switch to MyTransactionsFragment
                     val mainActivity: MainActivity = activity as MainActivity
                     mainActivity.switchToMyTransactionsFragment()
                     mainActivity.updateNavigationMenu(loggedIn = true)

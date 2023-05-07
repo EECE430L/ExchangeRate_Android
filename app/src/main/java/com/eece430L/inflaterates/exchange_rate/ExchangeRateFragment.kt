@@ -51,6 +51,9 @@ class ExchangeRateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_exchange_rate, container, false)
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click / text change listeners
+
         lbpToUsdExchangeRateContainer = view.findViewById(R.id.lbp_to_usd_exchange_rate_container)
         usdToLbpExchangeRateContainer = view.findViewById(R.id.usd_to_lbp_exchange_rate_container)
         lastRefreshedDateTimeContainer = view.findViewById(R.id.last_refreshed_date_time_container)

@@ -12,6 +12,7 @@ import com.eece430L.inflaterates.utilities.ContentDescriptionUtils
 import com.eece430L.inflaterates.utilities.DateTimeFormatUtils
 
 // ChatGPT
+// MyTransactionsAdapter bridges between the transactions list view and the data obtained from the backend
 class MyTransactionsAdapter (private val inflater: LayoutInflater,
                              private val dataSource: List<MyTransactionModel>)
     : BaseAdapter() {

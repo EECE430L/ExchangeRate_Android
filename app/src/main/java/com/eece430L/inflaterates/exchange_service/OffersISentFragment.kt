@@ -39,6 +39,7 @@ class OffersISentFragment : Fragment() {
         linkToCreateOfferTextView?.setOnClickListener { _ ->
             (activity as MainActivity).switchToOfferATransactionFragment()
         }
+        // underline "Create an Offer!"
         val linkToCreateOffer = SpannableString("Create an Offer!")
         linkToCreateOffer.setSpan(UnderlineSpan(), 0, linkToCreateOffer.length, 0)
         linkToCreateOfferTextView?.text = linkToCreateOffer

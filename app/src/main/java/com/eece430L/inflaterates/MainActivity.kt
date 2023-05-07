@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 //        https://youtu.be/AxjKfZr3Crk
         navigationView = findViewById(R.id.navigation_view)
+        // configure navigationView items so that each of them renders a specific fragment
         navigationView?.setNavigationItemSelectedListener {
 
             when(it.itemId) {
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val isUserLoggedIn: Boolean = Authentication.getToken() != null
+        // to show extra menu items if the user is authenticated
         updateNavigationMenu(isUserLoggedIn)
     }
 

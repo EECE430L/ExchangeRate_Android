@@ -29,6 +29,8 @@ class OffersIReceivedFragment : Fragment() {
         val view: View =  inflater.inflate(R.layout.fragment_offers_i_received, container, false)
 
         receivedOffersPlaceHolderTextView = view.findViewById(R.id.received_offers_placeholder_TextView)
+        // start with the placeholder text hidden
+        // after the api call is done you will either get data or else show the placeholder
         receivedOffersPlaceHolderTextView?.visibility = View.GONE
 
         listview = view.findViewById(R.id.offers_i_received_ListView)

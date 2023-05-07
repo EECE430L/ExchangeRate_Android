@@ -63,6 +63,9 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_statistics, container, false)
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click listeners
+
         headerTextView = view.findViewById(R.id.header_TextView)
 
         lbpToUsdPercentChangeContainer = view.findViewById(R.id.lbp_to_usd_percent_change_container)
@@ -96,6 +99,7 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         selectedEndMonth = calendar.get(Calendar.MONTH) + 1
         selectedEndDay = calendar.get(Calendar.DAY_OF_MONTH)
 
+        // decrement the current date by 1 week
         calendar.add(Calendar.WEEK_OF_YEAR, -1)
         selectedStartYear = calendar.get(Calendar.YEAR)
         selectedStartMonth = calendar.get(Calendar.MONTH) + 1
@@ -107,12 +111,15 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
+        // configure the datePickerDialog to start with the current date selected
         val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            // save the chosen date
             selectedStartYear = year
             selectedStartMonth = month + 1
             selectedStartDay = dayOfMonth
             val selectedCalendar = Calendar.getInstance()
             selectedCalendar.set(year, month, dayOfMonth)
+            // open another dialog so that the user can choose the End Date
             openEndDatePickerDialog(selectedCalendar.time)
         }, year, month, day)
         datePickerDialog.setTitle("Select Start Date")
@@ -125,9 +132,11 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
+        // configure the datePickerDialog to render with the start date (chosen previously) selected
         val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
             val selectedCalendar = Calendar.getInstance()
             selectedCalendar.set(year, month, dayOfMonth)
+            // save user's input
             selectedEndYear = year
             selectedEndMonth = month + 1
             selectedEndDay = dayOfMonth
@@ -138,6 +147,8 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
             updateFluctuations()
 
         }, year, month, day)
+        // start the dialog from the start date so that the user can not choose an end date that comes
+        // before the start date s/he previously chose
         datePickerDialog.datePicker.minDate = startDate.time
         datePickerDialog.setTitle("Select End Date")
         datePickerDialog.show()
@@ -225,6 +236,7 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
     //    ChatGPT
     private fun updateChart() {
 
+        // fill the entries for the 2 y-axes
         val lbpToUsdFluctuationEntries = mutableListOf<Entry>()
         val usdToLbpFluctuationEntries = mutableListOf<Entry>()
         for (i in dates.indices) {
@@ -233,14 +245,17 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
             usdToLbpFluctuationEntries.add(Entry(timestamp.toFloat(), usdToLbpFluctuations[i]))
         }
 
+        // create the datasets that will be graphed
         val lbpToUsdFluctuationsDataSet = LineDataSet(lbpToUsdFluctuationEntries, "LBP to USD")
         lbpToUsdFluctuationsDataSet.color = Color.BLUE
 
         val usdToLbpFluctuationsDataSet = LineDataSet(usdToLbpFluctuationEntries, "USD to LBP")
         usdToLbpFluctuationsDataSet.color = Color.GREEN
 
+        // graph the datasets
         val lineData = LineData(lbpToUsdFluctuationsDataSet, usdToLbpFluctuationsDataSet)
 
+        // render the graph on the chart with customizations
         chart?.data = lineData
         chart?.description = null
         chart?.setDrawGridBackground(false)
@@ -253,6 +268,8 @@ class StatisticsFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
 
         chart?.axisRight?.isEnabled = false
 
+        // show a snackbar when the user clicks on a point on the graph
+        // the snackbar contains the x and y values of the chosen point
         chart?.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
                 if (e != null) {

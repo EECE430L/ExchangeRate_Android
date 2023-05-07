@@ -31,7 +31,7 @@ object InflateRatesService {
         @GET("/exchangeRate")
         fun getExchangeRates(): Call<ExchangeRatesModel>
 
-        @GET("/statistics/todays-transactions")
+        @GET("/statistics/number-transactions")
         fun getTransactionNumbers(@Query("startYear") startYear: Int,
                                   @Query("startMonth") startMonth: Int,
                                   @Query("startDay") startDay: Int,
@@ -58,6 +58,9 @@ object InflateRatesService {
 
         @GET("/transaction")
         fun getMyTransactions(@Header("Authorization") authorization: String?) : Call<List<MyTransactionModel>>
+
+        @GET("/transaction/excel-transactions")
+        fun exportMyTransactions(@Header("Authorization") authorization: String?) : Call<Any>
 
         @POST("/transaction")
         fun addTransaction(@Body transaction: TransactionModel,

@@ -42,6 +42,9 @@ class SignupFragment : Fragment() {
 
         activity = requireActivity()
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click / text change listeners
+
         emailEditText = view.findViewById(R.id.emailLayout)
         TextChangeListenerUtils.setTextChangeListener(emailEditText!!)
 
@@ -67,6 +70,7 @@ class SignupFragment : Fragment() {
 
     private fun signup() {
 
+        // hide the keyboard when the user presses on signup
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(signupButton?.windowToken, 0)
 

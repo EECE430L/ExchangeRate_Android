@@ -32,6 +32,9 @@ class RecordAnExchangeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_record_an_exchange, container, false)
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click / text change listeners
+
         lbpAmountEditText = view.findViewById(R.id.lbp_amount_Layout)
         TextChangeListenerUtils.setTextChangeListener(lbpAmountEditText!!)
 

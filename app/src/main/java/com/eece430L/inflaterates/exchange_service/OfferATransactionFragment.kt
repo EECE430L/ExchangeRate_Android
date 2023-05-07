@@ -34,6 +34,9 @@ class OfferATransactionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View =  inflater.inflate(R.layout.fragment_offer_a_transaction, container, false)
 
+        // obtain a reference to different ui elements
+        // configure some elements by setting their on click / text change listeners
+
         receiverEditText = view.findViewById(R.id.receiver_Layout)
         TextChangeListenerUtils.setTextChangeListener(receiverEditText!!)
 
@@ -54,6 +57,7 @@ class OfferATransactionFragment : Fragment() {
 
     private fun createOffer() {
 
+        // hide the keyboard when the user presses on Create Offer
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(createOfferButton?.windowToken, 0)
 
